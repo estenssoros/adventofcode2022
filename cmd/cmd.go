@@ -3,6 +3,8 @@ package cmd
 import (
 	"github.com/estenssoros/adventofcode2022/pkg/day1"
 	"github.com/estenssoros/adventofcode2022/pkg/day2"
+	"github.com/estenssoros/adventofcode2022/pkg/day3"
+	"github.com/estenssoros/adventofcode2022/pkg/day4"
 	"github.com/spf13/cobra"
 )
 
@@ -10,6 +12,8 @@ func init() {
 	cmd.AddCommand(
 		day1.Cmd,
 		day2.Cmd,
+		day3.Cmd,
+		day4.Cmd,
 	)
 }
 
