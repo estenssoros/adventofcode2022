@@ -5,6 +5,7 @@ import (
 	"github.com/estenssoros/adventofcode2022/pkg/day2"
 	"github.com/estenssoros/adventofcode2022/pkg/day3"
 	"github.com/estenssoros/adventofcode2022/pkg/day4"
+	"github.com/estenssoros/adventofcode2022/pkg/day5"
 	"github.com/spf13/cobra"
 )
 
@@ -14,6 +15,7 @@ func init() {
 		day2.Cmd,
 		day3.Cmd,
 		day4.Cmd,
+		day5.Cmd,
 	)
 }
 
