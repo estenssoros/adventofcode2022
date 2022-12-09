@@ -12,15 +12,22 @@ var part2Cmd = &cobra.Command{
 	Use:     "part2",
 	Short:   "",
 	PreRunE: func(cmd *cobra.Command, args []string) error { return nil },
-	RunE:    func(cmd *cobra.Command, args []string) error { return part2(input) },
+	RunE: func(cmd *cobra.Command, args []string) error {
+		out, err := part2(input)
+		if err != nil {
+			return errors.Wrap(err, "part2")
+		}
+		fmt.Println(out)
+		return nil
+	},
 }
 
-func part2(input string) error {
+func part2(input string) (int, error) {
 	totalSize := 70000000
 	requiredSpace := 30000000
 	dir, err := parseInput(input)
 	if err != nil {
-		return errors.Wrap(err, "parseInput")
+		return 9, errors.Wrap(err, "parseInput")
 	}
 	currentSpace := totalSize - dir.Size()
 	toDelete := requiredSpace - currentSpace
@@ -41,6 +48,5 @@ func part2(input string) error {
 			directories = append(directories, c)
 		}
 	}
-	fmt.Println(minSize)
-	return nil
+	return minSize, nil
 }

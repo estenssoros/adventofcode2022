@@ -46,9 +46,4 @@ func TestPart1(t *testing.T) {
 	assert.Equal(t, 584, dir.Children["a"].Children["e"].Size())
 	assert.Equal(t, 94853, dir.Children["a"].Size())
 	assert.Equal(t, 24933642, dir.Children["d"].Size())
-	// ju, err := json.MarshalIndent(dir, "", " ")
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// fmt.Println(string(ju))
 }

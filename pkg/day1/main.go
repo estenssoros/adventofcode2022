@@ -28,33 +28,45 @@ var part1Cmd = &cobra.Command{
 	Use:     "part1",
 	Short:   "",
 	PreRunE: func(cmd *cobra.Command, args []string) error { return nil },
-	RunE:    func(cmd *cobra.Command, args []string) error { return part1() },
+	RunE: func(cmd *cobra.Command, args []string) error {
+		out, err := part1(input)
+		if err != nil {
+			return errors.Wrap(err, "part1")
+		}
+		fmt.Println(out)
+		return nil
+	},
 }
 
 var part2Cmd = &cobra.Command{
 	Use:     "part2",
 	Short:   "",
 	PreRunE: func(cmd *cobra.Command, args []string) error { return nil },
-	RunE:    func(cmd *cobra.Command, args []string) error { return part2() },
+	RunE: func(cmd *cobra.Command, args []string) error {
+		out, err := part2(input)
+		if err != nil {
+			return errors.Wrap(err, "part1")
+		}
+		fmt.Println(out)
+		return nil
+	},
 }
 
 //go:embed input.txt
 var input string
 
-func part1() error {
+func part1(input string) (int, error) {
 	elves, err := parseInput(input)
 	if err != nil {
-		return errors.Wrap(err, "parseInput")
+		return 0, errors.Wrap(err, "parseInput")
 	}
-	max := maxElf(elves)
-	fmt.Println(max)
-	return nil
+	return maxElf(elves), nil
 }
 
-func part2() error {
+func part2(input string) (int, error) {
 	elves, err := parseInput(input)
 	if err != nil {
-		return errors.Wrap(err, "parseInput")
+		return 0, errors.Wrap(err, "parseInput")
 	}
 	sort.Slice(elves, func(i, j int) bool {
 		return elves[i] > elves[j]
@@ -63,8 +75,7 @@ func part2() error {
 	for i := 0; i < 3; i++ {
 		sum += elves[i]
 	}
-	fmt.Println(sum)
-	return nil
+	return sum, nil
 
 }
 

@@ -11,16 +11,22 @@ var part1Cmd = &cobra.Command{
 	Use:     "part1",
 	Short:   "",
 	PreRunE: func(cmd *cobra.Command, args []string) error { return nil },
-	RunE:    func(cmd *cobra.Command, args []string) error { return part1(input) },
+	RunE: func(cmd *cobra.Command, args []string) error {
+		out, err := part1(input)
+		if err != nil {
+			return errors.Wrap(err, "part1")
+		}
+		fmt.Println(out)
+		return nil
+	},
 }
 
-func part1(input string) error {
+func part1(input string) (int, error) {
 	matrix, err := parseInput(input)
 	if err != nil {
-		return errors.Wrap(err, "parseInput")
+		return 0, errors.Wrap(err, "parseInput")
 	}
-	fmt.Println(countVisibleTrees(matrix))
-	return nil
+	return countVisibleTrees(matrix), nil
 }
 
 var (
@@ -59,7 +65,6 @@ func countVisibleTrees(matrix Matrix) int {
 			}
 		}
 	}
-	fmt.Println(count)
 
 	return count
 }
@@ -67,13 +72,11 @@ func countVisibleTrees(matrix Matrix) int {
 func visibleInDirection(x, y int, matrix Matrix, direction []int) bool {
 	deltaX, deltaY := direction[0], direction[1]
 	current := matrix.get(x, y)
-	// fmt.Println(current, direction)
 	for {
 		if !matrix.valid(x+deltaX, y+deltaY) {
 			return true
 		}
 		next := matrix.get(x+deltaX, y+deltaY)
-		// fmt.Println(next)
 		if next >= current {
 			return false
 		}

@@ -30,14 +30,4 @@ func TestPart1(t *testing.T) {
 		{10, 7, 6},
 	}
 	assert.Equal(t, wantOperation, ship.Operations)
-	// ship.Part1()
-	// for _, container := range ship.Containers {
-	// 	fmt.Println(container.String())
-	// }
-	// wantContainers := []*Stack{
-	// 	{'C'},
-	// 	{'M'},
-	// 	{'P', 'D', 'N', 'Z'},
-	// }
-	// assert.Equal(t, wantContainers, ship.Containers)
 }

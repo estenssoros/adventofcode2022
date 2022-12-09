@@ -17,16 +17,22 @@ var part2Cmd = &cobra.Command{
 	Use:     "part2",
 	Short:   "",
 	PreRunE: func(cmd *cobra.Command, args []string) error { return nil },
-	RunE:    func(cmd *cobra.Command, args []string) error { return part2() },
+	RunE: func(cmd *cobra.Command, args []string) error {
+		out, err := part2(input)
+		if err != nil {
+			return errors.Wrap(err, "part2")
+		}
+		fmt.Println(out)
+		return nil
+	},
 }
 
-func part2() error {
+func part2(input string) (int, error) {
 	rounds, err := parseInput(input)
 	if err != nil {
-		return errors.Wrap(err, "parseInput")
+		return 0, errors.Wrap(err, "parseInput")
 	}
-	fmt.Println(scoreRoundsPart2(rounds))
-	return nil
+	return scoreRoundsPart2(rounds), nil
 }
 
 func scoreRoundsPart2(rounds []Round) int {

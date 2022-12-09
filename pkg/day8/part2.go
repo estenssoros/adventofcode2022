@@ -11,7 +11,14 @@ var part2Cmd = &cobra.Command{
 	Use:     "part2",
 	Short:   "",
 	PreRunE: func(cmd *cobra.Command, args []string) error { return nil },
-	RunE:    func(cmd *cobra.Command, args []string) error { return part2(input) },
+	RunE: func(cmd *cobra.Command, args []string) error {
+		out, err := part2(input)
+		if err != nil {
+			return errors.Wrap(err, "part2")
+		}
+		fmt.Println(out)
+		return nil
+	},
 }
 
 /*
@@ -22,10 +29,10 @@ is the same height or taller than the tree under
 consideration. (If a tree is right on the edge,
 at least one of its viewing distances will be zero.)
 */
-func part2(input string) error {
+func part2(input string) (int, error) {
 	matrix, err := parseInput(input)
 	if err != nil {
-		return errors.Wrap(err, "parseInput")
+		return 0, errors.Wrap(err, "parseInput")
 	}
 	var maxScore int
 	for x := 0; x < matrix.Width; x++ {
@@ -36,8 +43,7 @@ func part2(input string) error {
 			}
 		}
 	}
-	fmt.Println(maxScore)
-	return nil
+	return maxScore, nil
 }
 
 func scoreTree(x, y int, matrix Matrix) int {

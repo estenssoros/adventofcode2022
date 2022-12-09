@@ -53,7 +53,3 @@ func (d *Directory) Size() int {
 	d.size = &size
 	return size
 }
-
-// func (d *Directory) SizeGreaterThan(gt int) int {
-
-// }

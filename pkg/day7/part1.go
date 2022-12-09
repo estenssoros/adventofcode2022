@@ -11,19 +11,21 @@ var part1Cmd = &cobra.Command{
 	Use:     "part1",
 	Short:   "",
 	PreRunE: func(cmd *cobra.Command, args []string) error { return nil },
-	RunE:    func(cmd *cobra.Command, args []string) error { return part1(input) },
+	RunE: func(cmd *cobra.Command, args []string) error {
+		out, err := part1(input)
+		if err != nil {
+			return errors.Wrap(err, "part1")
+		}
+		fmt.Println(out)
+		return nil
+	},
 }
 
-func part1(input string) error {
+func part1(input string) (int, error) {
 	dir, err := parseInput(input)
 	if err != nil {
-		return errors.Wrap(err, "parseInput")
+		return 0, errors.Wrap(err, "parseInput")
 	}
-	// ju, err := json.MarshalIndent(dir, "", " ")
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// fmt.Println(string(ju))
 
 	sizes := []int{}
 
@@ -47,8 +49,7 @@ func part1(input string) error {
 		sizes = append(sizes, size)
 	}
 
-	fmt.Println(sum(sizes))
-	return nil
+	return sum(sizes), nil
 }
 
 func sum(vals []int) int {

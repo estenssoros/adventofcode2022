@@ -13,24 +13,30 @@ var part2Cmd = &cobra.Command{
 	Use:     "part2",
 	Short:   "",
 	PreRunE: func(cmd *cobra.Command, args []string) error { return nil },
-	RunE:    func(cmd *cobra.Command, args []string) error { return part2() },
+	RunE: func(cmd *cobra.Command, args []string) error {
+		out, err := part2(input)
+		if err != nil {
+			return errors.Wrap(err, "part2")
+		}
+		fmt.Println(out)
+		return nil
+	},
 }
 
-func part2() error {
+func part2(input string) (int, error) {
 	groups, err := parseInputPart2(input)
 	if err != nil {
-		return errors.Wrap(err, "parseInputPart2")
+		return 0, errors.Wrap(err, "parseInputPart2")
 	}
 	var score int
 	for _, group := range groups {
 		badge, err := group.CommonLetter()
 		if err != nil {
-			return errors.Wrap(err, "group.CommonLetter")
+			return 0, errors.Wrap(err, "group.CommonLetter")
 		}
 		score += scoreRune(badge)
 	}
-	fmt.Println(score)
-	return nil
+	return score, nil
 }
 
 type Group struct {

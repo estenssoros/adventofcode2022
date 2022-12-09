@@ -11,21 +11,27 @@ var part1Cmd = &cobra.Command{
 	Use:     "part1",
 	Short:   "",
 	PreRunE: func(cmd *cobra.Command, args []string) error { return nil },
-	RunE:    func(cmd *cobra.Command, args []string) error { return part1() },
+	RunE: func(cmd *cobra.Command, args []string) error {
+		out, err := part1(input)
+		if err != nil {
+			return errors.Wrap(err, "part1")
+		}
+		fmt.Println(out)
+		return nil
+	},
 }
 
-func part1() error {
+func part1(input string) (int, error) {
 	rucksacks, err := parseInput(input)
 	if err != nil {
-		return errors.Wrap(err, "parseInput")
+		return 0, errors.Wrap(err, "parseInput")
 	}
 	var score int
 	for _, rucksack := range rucksacks {
 		dup := rucksack.DuplicatedItem()
 		score += scoreRune(dup)
 	}
-	fmt.Println(score)
-	return nil
+	return score, nil
 }
 
 func isUpperCase(r rune) bool {

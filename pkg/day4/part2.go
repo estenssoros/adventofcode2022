@@ -11,13 +11,20 @@ var part2Cmd = &cobra.Command{
 	Use:     "part2",
 	Short:   "",
 	PreRunE: func(cmd *cobra.Command, args []string) error { return nil },
-	RunE:    func(cmd *cobra.Command, args []string) error { return part2() },
+	RunE: func(cmd *cobra.Command, args []string) error {
+		out, err := part2(input)
+		if err != nil {
+			return errors.Wrap(err, "part2")
+		}
+		fmt.Println(out)
+		return nil
+	},
 }
 
-func part2() error {
+func part2(input string) (int, error) {
 	pairs, err := parseInput(input)
 	if err != nil {
-		return errors.Wrap(err, "parseInput")
+		return 0, errors.Wrap(err, "parseInput")
 	}
 	var sum int
 	for _, pair := range pairs {
@@ -25,8 +32,7 @@ func part2() error {
 			sum++
 		}
 	}
-	fmt.Println(sum)
-	return nil
+	return sum, nil
 }
 
 func (s Section) Overlaps(other Section) bool {

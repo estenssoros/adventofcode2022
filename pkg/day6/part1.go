@@ -3,6 +3,7 @@ package day6
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 )
 
@@ -10,12 +11,18 @@ var part1Cmd = &cobra.Command{
 	Use:     "part1",
 	Short:   "",
 	PreRunE: func(cmd *cobra.Command, args []string) error { return nil },
-	RunE:    func(cmd *cobra.Command, args []string) error { return part1() },
+	RunE: func(cmd *cobra.Command, args []string) error {
+		out, err := part1(input)
+		if err != nil {
+			return errors.Wrap(err, "part1")
+		}
+		fmt.Println(out)
+		return nil
+	},
 }
 
-func part1() error {
-	fmt.Println(startOfPackageMarker(input, 4))
-	return nil
+func part1(input string) (int, error) {
+	return startOfPackageMarker(input, 4), nil
 }
 
 /*
@@ -29,7 +36,6 @@ a b c d e f g h i j k l m n o p q r s t u v w x y z  right left
 	                1                                  4     1
 */
 func startOfPackageMarker(s string, k int) int {
-	// lookup := map[byte]int{}
 	var left, right = 0, 0
 	n := len(s)
 	freq := make([]byte, 26)
