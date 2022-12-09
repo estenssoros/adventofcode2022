@@ -31,10 +31,6 @@ func playerEqualOpponent(p, o rune) bool {
 	return o+23 == p
 }
 
-func playerToOpponent(p rune) rune {
-	return p - 23
-}
-
 func opponentToPlayer(o rune) rune {
 	return o + 23
 }
@@ -80,8 +76,7 @@ func (r Round) Outcome() int {
 			return RoundWinScore
 		}
 	}
-	panic("asdf")
-	return -1
+	panic("could not find outcome")
 }
 
 var part1Cmd = &cobra.Command{
