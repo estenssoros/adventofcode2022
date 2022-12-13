@@ -14,11 +14,13 @@ import (
 	"github.com/estenssoros/adventofcode2022/pkg/day7"
 	"github.com/estenssoros/adventofcode2022/pkg/day8"
 	"github.com/estenssoros/adventofcode2022/pkg/day9"
+	"github.com/estenssoros/adventofcode2022/pkg/gen"
 	"github.com/spf13/cobra"
 )
 
 func init() {
 	cmd.AddCommand(
+		gen.Cmd,
 		day1.Cmd,
 		day2.Cmd,
 		day3.Cmd,
