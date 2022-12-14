@@ -1,3 +1,3 @@
 package day{{.Day}}
 
-func parseInput() {}
+func parseInput(input string) {}
