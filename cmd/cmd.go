@@ -8,6 +8,7 @@ import (
 	"github.com/estenssoros/adventofcode2022/pkg/day13"
 	"github.com/estenssoros/adventofcode2022/pkg/day14"
 	"github.com/estenssoros/adventofcode2022/pkg/day15"
+	"github.com/estenssoros/adventofcode2022/pkg/day16"
 	"github.com/estenssoros/adventofcode2022/pkg/day2"
 	"github.com/estenssoros/adventofcode2022/pkg/day3"
 	"github.com/estenssoros/adventofcode2022/pkg/day4"
@@ -38,6 +39,7 @@ func init() {
 		day13.Cmd,
 		day14.Cmd,
 		day15.Cmd,
+		day16.Cmd,
 	)
 }
 
