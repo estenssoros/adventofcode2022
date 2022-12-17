@@ -5,13 +5,14 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/RyanCarrier/dijkstra"
 	"github.com/pkg/errors"
 )
 
 func parseInput(input string) (*Graph, error) {
 	s := bufio.NewScanner(strings.NewReader(input))
-	edgeLookup := map[string][]string{}
-	valveLookup := map[string]int{}
+	edges := map[string][]string{}
+	cost := map[string]int{}
 	mapping := map[string]int{}
 	var count int
 	for s.Scan() {
@@ -20,23 +21,25 @@ func parseInput(input string) (*Graph, error) {
 		if err != nil {
 			return nil, errors.Wrap(err, "splitString")
 		}
-		edges := strings.Split(strings.TrimSpace(part2), ", ")
+		valves := strings.Split(strings.TrimSpace(part2), ", ")
 		var name string
 		var rate int
 		_, err = fmt.Sscanf(part1, "Valve %s has flow rate=%d;", &name, &rate)
 		if err != nil {
 			return nil, errors.Wrapf(err, "fmt.Sscanf")
 		}
-		edgeLookup[name] = edges
-		valveLookup[name] = rate
+		edges[name] = valves
+		cost[name] = rate
 		mapping[name] = count
 		count++
 	}
 
 	return &Graph{
-		Graph:   valveLookup,
-		Edges:   edgeLookup,
+		Cost:    cost,
+		Edges:   edges,
 		Mapping: mapping,
+		Graph:   createDijkstraGraph(cost, mapping, edges),
+		Cache:   map[string]map[string]int{},
 	}, nil
 }
 
@@ -52,4 +55,17 @@ func splitString(line string) (string, string, error) {
 	}
 	idx += len("valve ")
 	return line[:idx], line[idx:], nil
+}
+
+func createDijkstraGraph(cost map[string]int, mapping map[string]int, edges map[string][]string) *dijkstra.Graph {
+	dj := dijkstra.NewGraph()
+	for k := range cost {
+		dj.AddVertex(mapping[k])
+	}
+	for name, edges := range edges {
+		for _, edge := range edges {
+			dj.AddArc(mapping[name], mapping[edge], 1)
+		}
+	}
+	return dj
 }
